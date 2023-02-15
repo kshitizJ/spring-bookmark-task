@@ -1,0 +1,36 @@
+Bookmarks:
+[
+  {
+      "title": "The best book for studing",
+      "url": "the-best-book-for-studing"
+  },
+  {
+      "title": "Coding",
+      "url": "coding"
+  },
+  {
+      "title": "Finance",
+      "url": "finance"
+  },
+  {
+      "title": "Multi Threading",
+      "url": "multithreading"
+  }
+]
+
+Folders: 
+[
+  {
+      "name": "finance"
+  },
+  {
+      "name": "coding"
+  }
+]
+
+Move Bookmark:
+{
+    "bookmarkId": 2,
+    "folderId": 1,
+    "newFolderId": 2
+}
