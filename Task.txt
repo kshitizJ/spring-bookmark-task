@@ -1,0 +1,21 @@
+1. Build a web-based bookmark application. Users can add bookmarks to their accounts and organize them into folders. Each bookmark will have a title and a URL. Bookmarks can be added to a folder. A folder will have a name.
+
+Users can:
+* add & delete bookmarks.
+* create, update and delete folders.
+* move bookmarks to a folder.
+* View bookmarks by folder
+
+2. Add validation to the payload with proper response mapping / exception mapping to respective HTTP status codes and error messages
+
+3. Add authentication using JWT
+
+4. Create endpoint for creating multiple (batch) bookmarks at once
+
+5. Add total bookmark counter to a folder which will be incremented / decremented each time a book is added or removed from a folder. Make sure that multiple concurrent edits will not corrupt database data
+
+6. Add caching to improve performance of your REST endpoints
+
+7. Add logging of every request / response in your REST API
+
+8. Add rate limiting to your REST APIs to mitigate excessive usage of your REST API
