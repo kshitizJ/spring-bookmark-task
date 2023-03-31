@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import static jakarta.persistence.GenerationType.AUTO;
 
 @Entity
@@ -14,7 +17,7 @@ import static jakarta.persistence.GenerationType.AUTO;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bookmark {
+public class Bookmark implements Serializable {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -39,4 +42,17 @@ public class Bookmark {
     @JsonBackReference("user-bookmark")
     private User user;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bookmark)) return false;
+        Bookmark bookmark = (Bookmark) o;
+        return getUrl().equals(bookmark.getUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUrl(), getUser().getId());
+    }
 }

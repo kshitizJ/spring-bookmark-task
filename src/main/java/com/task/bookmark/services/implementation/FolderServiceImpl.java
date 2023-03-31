@@ -4,35 +4,41 @@ import com.task.bookmark.exceptions.FolderNotFoundException;
 import com.task.bookmark.model.Bookmark;
 import com.task.bookmark.model.Folder;
 import com.task.bookmark.model.User;
+import com.task.bookmark.repository.BookmarkRepository;
 import com.task.bookmark.repository.FolderRepository;
-import com.task.bookmark.repository.UserRepository;
 import com.task.bookmark.services.FolderService;
+import com.task.bookmark.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FolderServiceImpl implements FolderService {
 
     @Autowired
     private FolderRepository folderRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private BookmarkRepository bookmarkRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<Folder> getAllFolders() {
-        return folderRepository.findAll();
+        User user = userService.getCurrentLoggedInUser();
+        List<Folder> folders = folderRepository.findFoldersByUserId(user.getId());
+        return folders;
     }
 
     @Override
-    public Folder createFolder(String name, Integer dtoUserId) {
+    public Folder createFolder(String name) {
         Folder folder = new Folder();
-        User user = Optional.ofNullable(dtoUserId).map(userId -> userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with given id does not exist."))).orElse(null);
+        User user = userService.getCurrentLoggedInUser();
         folder.setName(name);
         List<Bookmark> bookmarks = new ArrayList<>();
         folder.setBookmarks(bookmarks);
@@ -62,9 +68,10 @@ public class FolderServiceImpl implements FolderService {
         folderRepository.delete(folder);
     }
 
+    @Override
     public List<Bookmark> getBookmarksByFolderId(Integer id) throws FolderNotFoundException {
-        Folder folder = getFolder(id);
-        return folder.getBookmarks();
+        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByFolderId(id);
+        return bookmarks;
     }
 
 }

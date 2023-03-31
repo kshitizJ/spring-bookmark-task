@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.PERSIST;
@@ -17,7 +18,7 @@ import static jakarta.persistence.GenerationType.AUTO;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Folder {
+public class Folder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -27,6 +28,11 @@ public class Folder {
     @Column(nullable = false)
     @NotBlank(message = "Name cannot be empty")
     private String name;
+
+    private Integer bookmarkCounter = 0;
+
+    @Version
+    private Integer version;
 
     @OneToMany(mappedBy = "folder", cascade = PERSIST)
     @JsonBackReference

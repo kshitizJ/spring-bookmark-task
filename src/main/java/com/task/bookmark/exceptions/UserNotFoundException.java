@@ -1,7 +1,7 @@
 package com.task.bookmark.exceptions;
 
-public class UserNotFoundException extends RuntimeException{
-    public UserNotFoundException(String msg){
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String msg) {
         super(msg);
     }
 }

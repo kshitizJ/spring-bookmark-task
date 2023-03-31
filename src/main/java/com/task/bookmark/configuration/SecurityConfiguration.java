@@ -18,16 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-/**
- * {@code @EnableWebSecurity} This annotation will tell the spring that we have
- * configured our security in this class.
- *
- * <p>
- * SecurityFilterChain is the 1st class which spring
- * security will look for.
- * <p/>
- */
-
 @Configuration
 @EnableWebMvc
 @EnableWebSecurity
@@ -72,4 +62,5 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
 }

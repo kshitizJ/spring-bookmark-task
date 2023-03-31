@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("{userId}/folders")
-    public ResponseEntity<List<Folder>> getFoldersByUser(@PathVariable Integer userId){
+    public ResponseEntity<List<Folder>> getFoldersByUser(@PathVariable Integer userId) {
         List<Folder> foldersByUser = userService.getFoldersByUserId(userId);
         return new ResponseEntity<>(foldersByUser, OK);
     }

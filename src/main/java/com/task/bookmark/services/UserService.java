@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserService {
     User findUserByEmail(String email);
 
+    User getCurrentLoggedInUser();
+
     User getUser(Integer userId);
 
     User addNewUser(String firstName, String lastName, String email, String password);

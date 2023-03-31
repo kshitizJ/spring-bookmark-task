@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -19,11 +20,11 @@ import static jakarta.persistence.GenerationType.AUTO;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
 
-     @Id
-     @GeneratedValue(strategy = AUTO)
-     @Column(nullable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    @Column(nullable = false, updatable = false)
     private Integer id;
 
     private String firstName;

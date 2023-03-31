@@ -1,4 +1,11 @@
 package com.task.bookmark.dto;
 
-public record FolderBookmarkDTO(Integer bookmarkId, String title, String url, Integer folderId, Integer userId) {
+import jakarta.validation.constraints.NotBlank;
+
+public record FolderBookmarkDTO(
+        Integer bookmarkId,
+        @NotBlank(message = "Title cannot be empty") String title,
+        @NotBlank(message = "Url cannot be empty") String url,
+        Integer folderId
+) {
 }

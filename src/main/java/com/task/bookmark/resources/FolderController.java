@@ -29,7 +29,7 @@ public class FolderController {
 
     @PostMapping
     public ResponseEntity<Folder> createFolder(@RequestBody UserFolderDTO folder) {
-        Folder newfolder = folderService.createFolder(folder.name(), folder.userId());
+        Folder newfolder = folderService.createFolder(folder.name());
         return new ResponseEntity<Folder>(newfolder, CREATED);
     }
 
@@ -40,8 +40,7 @@ public class FolderController {
     }
 
     @PutMapping("/{folderId}")
-    public ResponseEntity<Folder> updateFolder(@PathVariable Integer folderId, @RequestBody UserFolderDTO folder)
-            throws FolderNotFoundException {
+    public ResponseEntity<Folder> updateFolder(@PathVariable Integer folderId, @RequestBody UserFolderDTO folder) throws FolderNotFoundException {
         Folder updateFolder = folderService.updateFolder(folderId, folder.name());
         return new ResponseEntity<Folder>(updateFolder, OK);
     }

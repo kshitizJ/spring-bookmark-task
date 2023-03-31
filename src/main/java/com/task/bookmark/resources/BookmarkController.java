@@ -1,26 +1,20 @@
 package com.task.bookmark.resources;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.task.bookmark.dto.FolderBookmarkDTO;
 import com.task.bookmark.exceptions.BookmarkNotFoundException;
 import com.task.bookmark.exceptions.FolderNotFoundException;
 import com.task.bookmark.model.Bookmark;
 import com.task.bookmark.services.BookmarkService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("api/v1/bookmarks")
@@ -36,8 +30,8 @@ public class BookmarkController {
     }
 
     @PostMapping
-    public ResponseEntity<Bookmark> createBookmark(@RequestBody FolderBookmarkDTO bookmark) {
-        Bookmark newBookmark = bookmarkService.createBookmark(bookmark.title(), bookmark.url(), bookmark.userId());
+    public ResponseEntity<Bookmark> createBookmark(@RequestBody @Valid FolderBookmarkDTO bookmark) {
+        Bookmark newBookmark = bookmarkService.createBookmark(bookmark.title(), bookmark.url());
         return new ResponseEntity<Bookmark>(newBookmark, CREATED);
     }
 
@@ -48,9 +42,7 @@ public class BookmarkController {
     }
 
     @PutMapping("/{bookmarkId}")
-    public ResponseEntity<Bookmark> updateBookmark(@PathVariable Integer bookmarkId,
-                                                   @RequestBody FolderBookmarkDTO folderBookmarkDTO)
-            throws BookmarkNotFoundException, FolderNotFoundException {
+    public ResponseEntity<Bookmark> updateBookmark(@PathVariable Integer bookmarkId, @RequestBody @Valid FolderBookmarkDTO folderBookmarkDTO) throws BookmarkNotFoundException, FolderNotFoundException {
         Bookmark updatedBookmark = bookmarkService.updateBookmark(bookmarkId, folderBookmarkDTO.title(),
                 folderBookmarkDTO.url(), folderBookmarkDTO.folderId());
         return new ResponseEntity<Bookmark>(updatedBookmark, OK);
@@ -60,6 +52,18 @@ public class BookmarkController {
     public ResponseEntity<Void> deleteBookmark(@PathVariable Integer bookmarkId) throws BookmarkNotFoundException {
         bookmarkService.deleteBookmark(bookmarkId);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<Bookmark>> createAllBookmarks(@RequestBody @Valid List<FolderBookmarkDTO> folderBookmarkDTOs) {
+        List<Bookmark> bookmarks = folderBookmarkDTOs.stream().map(folderBookmarkDTO -> {
+                    Bookmark bookmark = new Bookmark();
+                    bookmark.setTitle(folderBookmarkDTO.title());
+                    bookmark.setUrl(folderBookmarkDTO.url());
+                    return bookmark;
+                }
+        ).collect(Collectors.toList());
+        return new ResponseEntity<>(bookmarkService.createAllBookmarks(bookmarks), CREATED);
     }
 
 }

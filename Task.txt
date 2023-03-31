@@ -6,11 +6,17 @@ Users can:
 * move bookmarks to a folder.
 * View bookmarks by folder
 
+For getAllFolder:
+* use SecurityContextHolder in folder controller and get the user email.
+* send the user email to getAllFolder method in service layer.
+* create a new method in FolderRepository with name - findFoldersByUserId(Integer id)
+* return the list of folders by user id from the service layer using the above method from FolderRepository.
+
 2. Add validation to the payload with proper response mapping / exception mapping to respective HTTP status codes and error messages
 
 3. Add authentication using JWT
 
-4. Create endpoint for creating multiple (batch) bookmarks at once
+4. ng multiple (batch) Create endpoint for createbookmarks at once
 
 5. Add total bookmark counter to a folder which will be incremented / decremented each time a book is added or removed from a folder. Make sure that multiple concurrent edits will not corrupt database data
 
@@ -19,3 +25,46 @@ Users can:
 7. Add logging of every request / response in your REST API
 
 8. Add rate limiting to your REST APIs to mitigate excessive usage of your REST API
+
+
+Spring Security
+Indexing
+NoSql DB
+
+
+
+
+
+
+
+Spring security asks 2 questions:
+1. Who are you? - Authentication
+2. What do you want? - Authorization
+
+Spring security provides protection against attacks like session fixation, clickjacking, cross-site request forgery, etc
+
+5 core concepts in spring security.
+1. Authentication
+2. Authorization
+3. Principal
+4. Granted Authority
+5. Roles
+
+Spring security default behaviour
+1. Adds mandatory authentication for URLs
+2. Adds login form
+3. Handles login error - checks the username and password if they are correct or not
+4. Creates a user and sets a default password
+
+AuthenticationManager :- Something that manages the authentication. We donot build our own AuthenticationManager instead we make a configure AuthenticationManager using a builder pattern. We don't work we AuthenticationManager direcly for the most part, what we do instead is work with a builder class called AuthenticationManagerBuilder.
+
+
+
+
+docker commands to run redis
+
+1. docker run --name redis -d redis
+
+2. docker exec -it redis sh
+
+3. redis-cli

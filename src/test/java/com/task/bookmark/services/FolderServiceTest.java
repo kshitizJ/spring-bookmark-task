@@ -28,7 +28,7 @@ public class FolderServiceTest extends PostgreSqlContainer {
         // folder.setBookmarks(new ArrayList<>());
 
         // When
-        Folder newFolder = folderService.createFolder(folder.getName(), null);
+        Folder newFolder = folderService.createFolder(folder.getName());
 
         // Then
         assertEquals(folder.getName(), newFolder.getName());
@@ -41,7 +41,7 @@ public class FolderServiceTest extends PostgreSqlContainer {
         folder.setName("Coding");
 
         // When
-        Folder createdFolder = folderService.createFolder(folder.getName(), null);
+        Folder createdFolder = folderService.createFolder(folder.getName());
         Folder newFolder = folderService.getFolder(createdFolder.getId());
 
         // Then
@@ -55,7 +55,7 @@ public class FolderServiceTest extends PostgreSqlContainer {
         folder.setName("Coding");
 
         // When
-        Folder createdFolder = folderService.createFolder(folder.getName(), null);
+        Folder createdFolder = folderService.createFolder(folder.getName());
 
         folder.setName("Coding with Kshitiz");
         Folder updatedFolder = folderService.updateFolder(createdFolder.getId(), "Coding with Kshitiz");
@@ -71,7 +71,7 @@ public class FolderServiceTest extends PostgreSqlContainer {
         folder.setName("Coding");
 
         // When
-        Folder createdFolder = folderService.createFolder(folder.getName(), null);
+        Folder createdFolder = folderService.createFolder(folder.getName());
         folderService.deleteFolder(createdFolder.getId());
 
         // Then

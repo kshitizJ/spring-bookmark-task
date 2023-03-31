@@ -10,6 +10,7 @@ import com.task.bookmark.services.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,6 +42,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             UserPrinciple userPrinciple = new UserPrinciple(user);
             return userPrinciple;
         }
+    }
+
+    @Override
+    public User getCurrentLoggedInUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
@@ -89,7 +96,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<Folder> getFoldersByUserId(Integer id){
+    public List<Folder> getFoldersByUserId(Integer id) {
         User user = getUser(id);
         return user.getFolders();
     }

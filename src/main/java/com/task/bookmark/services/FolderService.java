@@ -8,16 +8,16 @@ import java.util.List;
 
 public interface FolderService {
 
-  Folder getFolder(Integer id);
+    Folder getFolder(Integer id);
 
-  Folder createFolder(String name, Integer dtoUserId);
+    Folder createFolder(String name);
 
-  Folder updateFolder(Integer id, String name);
+    Folder updateFolder(Integer id, String name);
 
-  void deleteFolder(Integer id);
+    void deleteFolder(Integer id);
 
-  List<Bookmark> getBookmarksByFolderId(Integer id) throws FolderNotFoundException;
+    List<Bookmark> getBookmarksByFolderId(Integer id) throws FolderNotFoundException;
 
-  List<Folder> getAllFolders();
+    List<Folder> getAllFolders();
 
 }

@@ -80,7 +80,7 @@ public class UserServiceTest extends PostgreSqlContainer {
     }
 
     @Test
-    public void deleteUserTest(){
+    public void deleteUserTest() {
         User user = new User();
         user.setFirstName("Kshitiz");
         user.setLastName("Jain");
