@@ -36,20 +36,20 @@ public class BookmarkController {
     }
 
     @GetMapping("/{bookmarkId}")
-    public ResponseEntity<Bookmark> getBookmark(@PathVariable Integer bookmarkId) throws BookmarkNotFoundException {
+    public ResponseEntity<Bookmark> getBookmark(@PathVariable Long bookmarkId) {
         Bookmark bookmark = bookmarkService.getBookmark(bookmarkId);
         return new ResponseEntity<Bookmark>(bookmark, OK);
     }
 
     @PutMapping("/{bookmarkId}")
-    public ResponseEntity<Bookmark> updateBookmark(@PathVariable Integer bookmarkId, @RequestBody @Valid FolderBookmarkDTO folderBookmarkDTO) throws BookmarkNotFoundException, FolderNotFoundException {
+    public ResponseEntity<Bookmark> updateBookmark(@PathVariable Long bookmarkId, @RequestBody @Valid FolderBookmarkDTO folderBookmarkDTO) {
         Bookmark updatedBookmark = bookmarkService.updateBookmark(bookmarkId, folderBookmarkDTO.title(),
                 folderBookmarkDTO.url(), folderBookmarkDTO.folderId());
         return new ResponseEntity<Bookmark>(updatedBookmark, OK);
     }
 
     @DeleteMapping("/{bookmarkId}")
-    public ResponseEntity<Void> deleteBookmark(@PathVariable Integer bookmarkId) throws BookmarkNotFoundException {
+    public ResponseEntity<Void> deleteBookmark(@PathVariable Long bookmarkId) throws BookmarkNotFoundException {
         bookmarkService.deleteBookmark(bookmarkId);
         return ResponseEntity.ok().build();
     }

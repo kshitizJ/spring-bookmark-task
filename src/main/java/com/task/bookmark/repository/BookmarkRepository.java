@@ -1,16 +1,19 @@
 package com.task.bookmark.repository;
 
+import com.google.cloud.datastore.Key;
+import com.google.cloud.spring.data.datastore.repository.DatastoreRepository;
 import com.task.bookmark.model.Bookmark;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.task.bookmark.model.Folder;
+import com.task.bookmark.model.User;
 
 import java.util.List;
 
-public interface BookmarkRepository extends JpaRepository<Bookmark, Integer> {
+public interface BookmarkRepository extends DatastoreRepository<Bookmark, Long> {
 
-    Bookmark findBookmarkByUrlAndUserId(String url, Integer userId);
+    Bookmark findBookmarkByUrlAndUserId(String url, Long userId);
 
-    List<Bookmark> findBookmarksByUserId(Integer userId);
+    List<Bookmark> findBookmarksByUser(User user);
 
-    List<Bookmark> findBookmarksByFolderId(Integer folderId);
+    List<Bookmark> findBookmarksByFolder(Folder folder);
 
 }

@@ -1,32 +1,28 @@
 package com.task.bookmark.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
+import org.springframework.data.annotation.Version;
 
 import java.io.Serializable;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.PERSIST;
-import static jakarta.persistence.GenerationType.AUTO;
 
-@Entity
-@Table(name = "folders")
+@Entity(name = "folders")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Folder implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
-    @Column(nullable = false, updatable = false)
-    private Integer id;
+    private Key folderKey;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     private Integer bookmarkCounter = 0;
@@ -34,13 +30,10 @@ public class Folder implements Serializable {
     @Version
     private Integer version;
 
-    @OneToMany(mappedBy = "folder", cascade = PERSIST)
-    @JsonBackReference
+    @Reference
     private List<Bookmark> bookmarks;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference("user-folder")
+    @JsonIgnore
     private User user;
 
 }

@@ -1,10 +1,10 @@
 package com.task.bookmark.repository;
 
+import com.google.cloud.spring.data.datastore.repository.DatastoreRepository;
 import com.task.bookmark.model.Folder;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FolderRepository extends JpaRepository<Folder, Integer> {
-    List<Folder> findFoldersByUserId(Integer id);
+public interface FolderRepository extends DatastoreRepository<Folder, Long> {
+    List<Folder> findFoldersByUserId(Long id);
 }

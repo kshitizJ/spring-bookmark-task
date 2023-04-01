@@ -1,6 +1,8 @@
 package com.task.bookmark.services.implementation;
 
+import com.google.api.client.util.Lists;
 import com.task.bookmark.exceptions.UserExistException;
+import com.task.bookmark.model.Bookmark;
 import com.task.bookmark.model.Folder;
 import com.task.bookmark.model.User;
 import com.task.bookmark.model.UserPrinciple;
@@ -34,14 +36,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findUserByEmail(email);
         if (user == null)
             throw new UsernameNotFoundException("Invalid email: " + email);
-        else {
-            UserPrinciple userPrinciple = new UserPrinciple(user);
-            return userPrinciple;
-        }
+        else
+            return new UserPrinciple(user);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUser(Integer userId) {
+    public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with id does not exist."));
     }
 
@@ -68,35 +68,40 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
+        List<Bookmark> bookmarks = new ArrayList<>();
+        user.setBookmarks(bookmarks);
         List<Folder> folders = new ArrayList<>();
         user.setFolders(folders);
-        User createdUser = userRepository.save(user);
-        return createdUser;
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(Integer userId, String firstName, String lastName, String email) {
+    public User updateUser(Long userId, String firstName, String lastName, String email) {
         User user = getUser(userId);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
-        User updatedUser = userRepository.save(user);
-        return updatedUser;
+        return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Integer userId) {
+    public void deleteUser(Long userId) {
         User user = getUser(userId);
+        List<Folder> folders = getFoldersByUserId(userId);
+        folders.stream().map(folder -> {
+            folderService.deleteFolder(folder.getFolderKey().getId());
+            return folder;
+        });
         userRepository.delete(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return Lists.newArrayList(userRepository.findAll());
     }
 
     @Override
-    public List<Folder> getFoldersByUserId(Integer id) {
+    public List<Folder> getFoldersByUserId(Long id) {
         User user = getUser(id);
         return user.getFolders();
     }

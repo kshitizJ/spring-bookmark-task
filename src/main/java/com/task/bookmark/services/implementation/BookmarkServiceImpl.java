@@ -1,5 +1,6 @@
 package com.task.bookmark.services.implementation;
 
+import com.google.api.client.util.Lists;
 import com.task.bookmark.exceptions.BookmarkExistException;
 import com.task.bookmark.exceptions.BookmarkNotFoundException;
 import com.task.bookmark.exceptions.FolderNotFoundException;
@@ -8,16 +9,18 @@ import com.task.bookmark.model.Folder;
 import com.task.bookmark.model.User;
 import com.task.bookmark.repository.BookmarkRepository;
 import com.task.bookmark.repository.FolderRepository;
+import com.task.bookmark.repository.UserRepository;
 import com.task.bookmark.services.BookmarkService;
 import com.task.bookmark.services.UserService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,14 +36,16 @@ public class BookmarkServiceImpl implements BookmarkService {
     private FolderRepository folderRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
     @Override
     @Cacheable(value = "bookmarks", key = "@userServiceImpl.getCurrentLoggedInUser().getId()")
     public List<Bookmark> getAllBookmars() {
         User user = userService.getCurrentLoggedInUser();
-        List<Bookmark> bookmarks = bookmarkRepository.findBookmarksByUserId(user.getId());
-        return bookmarks;
+        return bookmarkRepository.findBookmarksByUser(user);
     }
 
     @Override
@@ -58,21 +63,24 @@ public class BookmarkServiceImpl implements BookmarkService {
         bookmark.setUrl(url);
         bookmark.setUser(user);
         Bookmark newBookmark = bookmarkRepository.save(bookmark);
+        List<Bookmark> bookmarks = new ArrayList<>(user.getBookmarks());
+        bookmarks.add(newBookmark);
+        user.setBookmarks(bookmarks);
+        userRepository.save(user);
         return newBookmark;
     }
 
     @Override
     @Cacheable(value = "bookmark", key = "#id")
-    public Bookmark getBookmark(Integer id) {
-        Bookmark bookmark = bookmarkRepository.findById(id)
+    public Bookmark getBookmark(Long id) {
+        return bookmarkRepository.findById(id)
                 .orElseThrow(() -> new BookmarkNotFoundException("Bookmark with the given id does not exist."));
-        return bookmark;
     }
 
     @Override
     @CacheEvict(value = "bookmarks", key = "@userServiceImpl.getCurrentLoggedInUser().getId()")
     @CachePut(value = "bookmark", key = "#id")
-    public Bookmark updateBookmark(Integer id, String title, String url, Integer newFolderId) {
+    public Bookmark updateBookmark(Long id, String title, String url, Long newFolderId) {
         Bookmark bookmark = getBookmark(id);
 
         Folder folder = Optional.ofNullable(newFolderId).map(folderId -> folderRepository.findById(folderId)
@@ -81,14 +89,23 @@ public class BookmarkServiceImpl implements BookmarkService {
         if (bookmark.getFolder() == null) {
 
             folder.setBookmarkCounter(folder.getBookmarkCounter() + 1);
+            List<Bookmark> bookmarks = new ArrayList<>(folder.getBookmarks());
+            bookmarks.add(bookmark);
+            folder.setBookmarks(bookmarks);
             folderRepository.save(folder);
 
         } else {
 
-            if (bookmark.getFolder().getId() != newFolderId) {
+            if (bookmark.getFolder().getFolderKey().getId() != newFolderId) {
                 Folder prevFolder = bookmark.getFolder();
+                List<Bookmark> bookmarks = new ArrayList<>(prevFolder.getBookmarks());
+                bookmarks.remove(bookmark);
+                prevFolder.setBookmarks(bookmarks);
                 prevFolder.setBookmarkCounter(prevFolder.getBookmarkCounter() - 1);
                 folderRepository.save(prevFolder);
+                bookmarks = new ArrayList<>(folder.getBookmarks());
+                bookmarks.add(bookmark);
+                folder.setBookmarks(bookmarks);
                 folder.setBookmarkCounter(folder.getBookmarkCounter() + 1);
                 folderRepository.save(folder);
             }
@@ -107,11 +124,14 @@ public class BookmarkServiceImpl implements BookmarkService {
             @CacheEvict(value = "bookmarks", key = "@userServiceImpl.getCurrentLoggedInUser().getId()"),
             @CacheEvict(value = "bookmark", key = "#id")
     })
-    public void deleteBookmark(Integer id) {
+    public void deleteBookmark(Long id) {
         Bookmark bookmark = getBookmark(id);
-        Folder folder = Optional.ofNullable(bookmark.getFolder()).map(curFolder -> folderRepository.findById(curFolder.getId()).orElseThrow(() -> new FolderNotFoundException("Folder with the given Id is not found."))).orElse(null);
+        Folder folder = Optional.ofNullable(bookmark.getFolder()).map(curFolder -> folderRepository.findById(curFolder.getFolderKey().getId()).orElseThrow(() -> new FolderNotFoundException("Folder with the given Id is not found."))).orElse(null);
 
         Optional.ofNullable(folder).ifPresent(curFolder -> {
+            List<Bookmark> bookmarks = new ArrayList<>(curFolder.getBookmarks());
+            bookmarks.remove(bookmark);
+            curFolder.setBookmarks(bookmarks);
             curFolder.setBookmarkCounter(curFolder.getBookmarkCounter() - 1);
             folderRepository.save(curFolder);
         });
@@ -123,11 +143,14 @@ public class BookmarkServiceImpl implements BookmarkService {
     @CacheEvict(value = "bookmarks", key = "@userServiceImpl.getCurrentLoggedInUser().getId()")
     public List<Bookmark> createAllBookmarks(List<Bookmark> bookmarks) {
         User user = userService.getCurrentLoggedInUser();
+        List<Bookmark> userBookmarks = new ArrayList<>(user.getBookmarks());
         List<Bookmark> bookmarkList = bookmarks.stream().map(bookmark -> {
             bookmark.setUser(user);
+            userBookmarks.add(bookmark);
             return bookmark;
         }).collect(Collectors.toList());
-        List<Bookmark> newBookmarks = bookmarkRepository.saveAll(bookmarkList);
+        user.setBookmarks(userBookmarks);
+        List<Bookmark> newBookmarks = Lists.newArrayList(bookmarkRepository.saveAll(bookmarkList));
         return newBookmarks;
     }
 

@@ -34,25 +34,25 @@ public class FolderController {
     }
 
     @GetMapping("/{folderId}")
-    public ResponseEntity<Folder> getFolder(@PathVariable Integer folderId) throws FolderNotFoundException {
+    public ResponseEntity<Folder> getFolder(@PathVariable Long folderId) {
         Folder folder = folderService.getFolder(folderId);
         return new ResponseEntity<Folder>(folder, OK);
     }
 
     @PutMapping("/{folderId}")
-    public ResponseEntity<Folder> updateFolder(@PathVariable Integer folderId, @RequestBody UserFolderDTO folder) throws FolderNotFoundException {
+    public ResponseEntity<Folder> updateFolder(@PathVariable Long folderId, @RequestBody UserFolderDTO folder) throws FolderNotFoundException {
         Folder updateFolder = folderService.updateFolder(folderId, folder.name());
         return new ResponseEntity<Folder>(updateFolder, OK);
     }
 
     @DeleteMapping("/{folderId}")
-    public ResponseEntity<Void> deleteFolder(@PathVariable Integer folderId) throws FolderNotFoundException {
+    public ResponseEntity<Void> deleteFolder(@PathVariable Long folderId) {
         folderService.deleteFolder(folderId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{folderId}/bookmarks")
-    public ResponseEntity<List<Bookmark>> getBookmarksByFolder(@PathVariable Integer folderId) {
+    public ResponseEntity<List<Bookmark>> getBookmarksByFolder(@PathVariable Long folderId) {
         List<Bookmark> bookmarksByFolder = folderService.getBookmarksByFolderId(folderId);
         return new ResponseEntity<>(bookmarksByFolder, OK);
     }

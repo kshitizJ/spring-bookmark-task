@@ -1,45 +1,34 @@
 package com.task.bookmark.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.spring.data.datastore.core.mapping.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import static jakarta.persistence.GenerationType.AUTO;
-
-@Entity
-@Table(name = "bookmarks")
+@Entity(name = "bookmarks")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bookmark implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = AUTO)
-    @Column(nullable = false, updatable = false)
-    private Integer id;
+    private Key bookmarkKey;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Title cannot be empty.")
     private String title;
 
-    @Column(nullable = false)
-    @NotBlank(message = "URL cannot be empty.")
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "folder_id")
-    @JsonBackReference
+    @JsonIgnore
     private Folder folder;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference("user-bookmark")
+    @JsonIgnore
     private User user;
 
 

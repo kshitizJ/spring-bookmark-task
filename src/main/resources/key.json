@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "spring-datastore-381909",
+  "private_key_id": "25676ab02a6bf8d144b730adcdecce9c4162b36a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCocWNffzC1Rvva\nxEqV2lO7GgqkhkkUkJFcSnr048+mHgBk3NrrxUh1+pIH7/yAbO6pprZl8fj1B/Nb\nQpbY5jCX4egP4EoYxZkJBHwxOMuWqiOb7V5pxcvNyvXXnKZCq1FaP7klLugE0Kqm\n1BfXaqRJ/6uzQExuh8EOzxQSg7xr7tumplj30AOglztMAOEwb0L5raABrP6R4R1H\n/Ys6P8fGm0Qw3b6MzOfWlVvM8J3Cw0Ckm8fqsuuaXkqGLAB727GMsmyoRy79/r4V\nFC06lChbPBY6YRYzDGWiCXk/N637f2DrwdcY4LByK3YnZGzvZ2lN6Vzd1Pj0ru4T\n53GxlX+1AgMBAAECggEAD7kh2wiu3cUF/mpDQhCyryzjoG7uhG5oOzKynohjWjDD\nvaaGAusT8/tTRU1oBv7kGk73CLYZFJpM45BoL0/xakQKmuzHTd+oBNj31Mpl6qbw\nEv6JyRrPBuMyppE3TdLbEa8QE8H4o3Zs74ytuwx30HZ+qwlN+SVP5pd62q2UWYi3\n3+Fht6F1PrnhjUWkjjRN1Sl3tw7vx9fGy1UuoeWZNQtHT9N0mn2YRTUIc0gFgPpj\nBbcJErvr1J55D45cfyIpPeOciDakq/ZZgzuV1xyKDcySew/7ubbso9I1GYjNfbwZ\nklpSg/J7MepEgBY2LQGO7vezxsXR8fQVBkI+RExtwQKBgQDlSK/OGdCg9jbT83ZY\nTzSrO1kF/8zJWiPhduS/HXcUYDydC1rndJC7lNCILcbxc66zyDtH0F6z1XUHBJzA\nMMyAK45rjb4XS7zidTYqXOw/Bw6ic1DtvY9eX6ImOXDU21ESLKj0LpL3QoHDQhrM\nRTyzRqbQCWmOyR6HI2PSnIY9FQKBgQC8Ed/LX8IgWdt8SLGgjP8VpF9nPuHzhuQF\nLkVC6ciXgLaPFH0xnMG3mGaUi37su419Dy1PLBfkeIGp3O+k1MrsqhDCBsFhvY4a\nv1pmGSAxtdKXIf+dykO0LriNjn7ZWrNI+TozxgsODnrKq8KDV3eQ3fN9mTOqShyB\n3/PQBVEgIQKBgQDD54MvGieEIFtgZZksgyCBXcgGtDWJpRcbQbbZBJgGNOQVWupk\n8NfpLpGuiU5+Z1VSDzd3eLYx+aRwRqSYIhnZOV4Kz6UnynKtG3EYaSUCBUmfy9/O\nAjVJcXTeLB4YAPwYB0ikulagJZcx+n1jI5VlqGxHPIOQmI8Y8EgOX+bisQKBgQC1\nxhTnLauktxUEAALm6cBWu6OWV9nuFc9oDnvVG77MaBSLIEOM4zT87akgI9/OkcxE\nNpoVbsm9AphYhHl/eEiWDB3cWskoXhzuT0rhaaGLSnC7sJmueeOMUKgB8ds624Zz\nnqeZiO4AbRBTuUVsyup+s3d3Ss775Vu+T6YIxkrN4QKBgF3UTyhyUDY+b+mtxqHP\nNlSzZ7RUoMNpimrUGSMUeqEUrDUhY4s5Ddz+Hjw9ibsj/FNnRwmTuXfHxeplxNn3\n+ZeDtz9HHCJT4zLK33+B84jsce/OriOHPz49QFG5hqvzR7HVGjKrlu0wWsqhn0Mn\nUbjrqBr1xcLcRZ22IlJzhej8\n-----END PRIVATE KEY-----\n",
+  "client_email": "spring-datastore-cloud@spring-datastore-381909.iam.gserviceaccount.com",
+  "client_id": "105313768956750302847",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spring-datastore-cloud%40spring-datastore-381909.iam.gserviceaccount.com"
+}

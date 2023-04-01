@@ -32,25 +32,25 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable Integer userId) {
+    public ResponseEntity<User> getUser(@PathVariable Long userId) {
         User user = userService.getUser(userId);
         return new ResponseEntity<>(user, OK);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer userId, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
         User user = userService.updateUser(userId, userDTO.firstName(), userDTO.lastName(), userDTO.email());
         return new ResponseEntity<>(user, OK);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("{userId}/folders")
-    public ResponseEntity<List<Folder>> getFoldersByUser(@PathVariable Integer userId) {
+    public ResponseEntity<List<Folder>> getFoldersByUser(@PathVariable Long userId) {
         List<Folder> foldersByUser = userService.getFoldersByUserId(userId);
         return new ResponseEntity<>(foldersByUser, OK);
     }

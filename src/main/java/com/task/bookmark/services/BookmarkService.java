@@ -10,11 +10,11 @@ public interface BookmarkService {
 
     Bookmark createBookmark(String title, String url);
 
-    Bookmark getBookmark(Integer id);
+    Bookmark getBookmark(Long id);
 
-    Bookmark updateBookmark(Integer id, String title, String url, Integer folderId);
+    Bookmark updateBookmark(Long id, String title, String url, Long folderId);
 
-    void deleteBookmark(Integer id);
+    void deleteBookmark(Long id);
 
     List<Bookmark> createAllBookmarks(List<Bookmark> bookmarks);
 

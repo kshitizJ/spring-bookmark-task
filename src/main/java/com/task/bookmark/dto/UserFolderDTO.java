@@ -1,4 +1,4 @@
 package com.task.bookmark.dto;
 
-public record UserFolderDTO(Integer folderId, String name, Integer userId) {
+public record UserFolderDTO(Long folderId, String name, Long userId) {
 }

@@ -1,6 +1,5 @@
 package com.task.bookmark.services;
 
-import com.task.bookmark.exceptions.FolderNotFoundException;
 import com.task.bookmark.model.Bookmark;
 import com.task.bookmark.model.Folder;
 
@@ -8,15 +7,15 @@ import java.util.List;
 
 public interface FolderService {
 
-    Folder getFolder(Integer id);
+    Folder getFolder(Long id);
 
     Folder createFolder(String name);
 
-    Folder updateFolder(Integer id, String name);
+    Folder updateFolder(Long id, String name);
 
-    void deleteFolder(Integer id);
+    void deleteFolder(Long id);
 
-    List<Bookmark> getBookmarksByFolderId(Integer id) throws FolderNotFoundException;
+    List<Bookmark> getBookmarksByFolderId(Long id);
 
     List<Folder> getAllFolders();
 

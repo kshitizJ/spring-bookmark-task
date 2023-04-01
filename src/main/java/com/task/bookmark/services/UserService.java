@@ -10,15 +10,15 @@ public interface UserService {
 
     User getCurrentLoggedInUser();
 
-    User getUser(Integer userId);
+    User getUser(Long userId);
 
     User addNewUser(String firstName, String lastName, String email, String password);
 
-    User updateUser(Integer userId, String firstName, String lastName, String email);
+    User updateUser(Long userId, String firstName, String lastName, String email);
 
     List<User> getAllUsers();
 
-    List<Folder> getFoldersByUserId(Integer id);
+    List<Folder> getFoldersByUserId(Long id);
 
-    void deleteUser(Integer userId);
+    void deleteUser(Long userId);
 }

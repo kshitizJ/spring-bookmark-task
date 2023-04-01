@@ -1,19 +1,14 @@
-server:
-  port: 8080
+PROJECT_ID: spring-datastore-381909
 
 spring:
   main:
     allow-circular-references: true
-  datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: postgres
-    password: password
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:key.json
+      datastore:
+        namespace: ${DATASTORE_NAME:spring-cloud}
+        project-id: ${PROJECT_ID:spring-datastore-381909}
+        enabled: true
